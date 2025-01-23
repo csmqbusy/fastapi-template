@@ -12,5 +12,3 @@ class Base(DeclarativeBase):
     }
 
     metadata = MetaData(naming_convention=naming_convention)
-
-    id: Mapped[int] = mapped_column(primary_key=True)
