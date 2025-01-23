@@ -1,12 +1,23 @@
+from contextlib import asynccontextmanager
+
 import uvicorn
 from fastapi import FastAPI
 
 from app.api import router as api_router
 from app.core.config import settings
+from app.db import close_db
 
 
-app = FastAPI()
-app.include_router(
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    yield
+    await close_db()
+
+
+main_app = FastAPI(
+        lifespan=lifespan,
+)
+main_app.include_router(
         api_router,
         prefix=settings.api.prefix
 )
@@ -14,7 +25,7 @@ app.include_router(
 
 if __name__ == '__main__':
     uvicorn.run(
-            "main:app",
+            "main:main_app",
             host=settings.run.host,
             port=settings.run.port,
             reload=True,
