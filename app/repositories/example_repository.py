@@ -1,4 +1,4 @@
-from app.repositories.base import BaseRepository
+from app.repositories.base_repository import BaseRepository
 
 ExampleModel = "Instead of this variable, your SQLAlchemy model should be imported here"
 
